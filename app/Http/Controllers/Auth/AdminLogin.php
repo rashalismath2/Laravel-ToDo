@@ -10,7 +10,7 @@ use App\Http\Requests\ValidateLogin;
 class AdminLogin extends Controller
 {
     public function __construct(){
-        $this->middleware('guest',['except'=>['logout']]);
+        $this->middleware('guest:admin',['except'=>['logout']]);
     }
   
     public function index(){
@@ -20,7 +20,7 @@ class AdminLogin extends Controller
     public function login(ValidateLogin $request){
 
         if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])){
-            return redirect('home')->with('status','Admin logged in');
+            return redirect()->route('adminhome')->with('status','Admin logged in');
         }
         return redirect()->route('adminlogin.show');
     }
